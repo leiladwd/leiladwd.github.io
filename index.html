@@ -849,7 +849,18 @@ var str_EN = ['dog', 'cat', 'tiger', 'panda', 'otter', 'sheep', 'grampus', 'seag
 $('#APjFqb').bind('input propertychange', 'textarea', function() {
   changeStr()
 });
+// 添加失去焦点事件处理程序
+var textarea = document.getElementById('APjFqb');
+textarea.addEventListener('blur', function() {
+  resultDiv.style.display = 'none'; // 隐藏 div 元素
+  $('.RNNXgb')[0].style.borderBottom = ''
+  $('.RNNXgb')[0].style.borderBottomLeftRadius = ''
+  $('.RNNXgb')[0].style.borderBottomRightRadius = ''
 
+  $('.RNNXgb')[0].style.boxShadow = ''
+  $('.RNNXgb')[0].style.boxColor = ''
+});
+  
 function removeElementFromArray(arr, element) {
   var newArray = arr.filter(function(item) {
     var regex = new RegExp('^' + element); // 使用 ^ 字符匹配开头
@@ -898,6 +909,7 @@ function changeStr() {
 
     $('.RNNXgb')[0].style.boxShadow = ''
     $('.RNNXgb')[0].style.boxColor = ''
+    daleteImgclass()
   }
 }
 
@@ -1005,16 +1017,20 @@ function createPopupImage(name, container) {
   existingImages = document.getElementsByClassName('image');
 }
 
-// 创建多个弹出图片
-var interval = 1500; // 弹出图片的时间间隔（毫秒）
-
-function createMultipleImages(newArray) {
+function daleteImgclass() {
   var images = document.querySelectorAll('.popup-image');
 
   for (var i = 0; i < images.length; i++) {
     var image = images[i];
     image.parentNode.removeChild(image);
   }
+}
+
+// 创建多个弹出图片
+var interval = 1500; // 弹出图片的时间间隔（毫秒）
+
+function createMultipleImages(newArray) {
+  daleteImgclass()
 
   var containers = document.getElementsByClassName('container');
   var containerCount = containers.length;
