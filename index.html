@@ -844,23 +844,17 @@
 </html>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-var str_CN = ['狗', '猫', '老虎', '大熊猫', '水獭', '羊', '虎鲸', '海鸥', '小浣熊'];
-var str_EN = ['dog', 'cat', 'tiger', 'panda', 'otter', 'sheep', 'grampus', 'seagull', 'raccoon'];
+var str_CN = ['狗', '猫', '老虎', '大熊猫', '水獭', '海鸥', '小浣熊']; //, '羊', '虎鲸'
+var str_EN = ['dog', 'cat', 'tiger', 'panda', 'otter', 'seagull', 'raccoon']; //, 'sheep', 'grampus'
 $('#APjFqb').bind('input propertychange', 'textarea', function() {
   changeStr()
 });
 // 添加失去焦点事件处理程序
 var textarea = document.getElementById('APjFqb');
 textarea.addEventListener('blur', function() {
-  resultDiv.style.display = 'none'; // 隐藏 div 元素
-  $('.RNNXgb')[0].style.borderBottom = ''
-  $('.RNNXgb')[0].style.borderBottomLeftRadius = ''
-  $('.RNNXgb')[0].style.borderBottomRightRadius = ''
-
-  $('.RNNXgb')[0].style.boxShadow = ''
-  $('.RNNXgb')[0].style.boxColor = ''
+  //   deleteSelect()
 });
-  
+
 function removeElementFromArray(arr, element) {
   var newArray = arr.filter(function(item) {
     var regex = new RegExp('^' + element); // 使用 ^ 字符匹配开头
@@ -889,7 +883,7 @@ function changeStr() {
     var show = ''
     newArray.forEach(element => {
       show += '<li class="result_li" onclick="checkImg(\'' + element + '\')"><label>' + element +
-        '</label><br/><span>Animal</span></li>';
+        '</label></li>'; //<br/><span>Animal</span>
 
     })
     $('#result_ul')[0].innerHTML = show
@@ -902,20 +896,25 @@ function changeStr() {
 
 
   } else {
-    resultDiv.style.display = 'none'; // 隐藏 div 元素
-    $('.RNNXgb')[0].style.borderBottom = ''
-    $('.RNNXgb')[0].style.borderBottomLeftRadius = ''
-    $('.RNNXgb')[0].style.borderBottomRightRadius = ''
-
-    $('.RNNXgb')[0].style.boxShadow = ''
-    $('.RNNXgb')[0].style.boxColor = ''
+    deleteSelect()
     daleteImgclass()
   }
+}
+
+function deleteSelect() {
+  document.getElementById('result').style.display = 'none'; // 隐藏 div 元素
+  $('.RNNXgb')[0].style.borderBottom = ''
+  $('.RNNXgb')[0].style.borderBottomLeftRadius = ''
+  $('.RNNXgb')[0].style.borderBottomRightRadius = ''
+
+  $('.RNNXgb')[0].style.boxShadow = ''
+  $('.RNNXgb')[0].style.boxColor = ''
 }
 
 function checkImg(name) {
   var newArray = removeElementFromArray(str_EN, name);
   createMultipleImages(newArray)
+  deleteSelect()
 }
 
 function generateRandomNumber(min, max) {
@@ -955,10 +954,10 @@ function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeig
 
   return position;
 }
-var minWidth = 100;
-var maxWidth = 120;
-var minHeight = 100;
-var maxHeight = 120;
+var minWidth = 120;
+var maxWidth = 140;
+var minHeight = 120;
+var maxHeight = 140;
 
 function createPopupImage(name, container) {
   var containerWidth = container.clientWidth;
@@ -985,7 +984,7 @@ function createPopupImage(name, container) {
   // 添加鼠标移入事件监听器
   image.addEventListener('mouseenter', function() {
     this.style.zIndex = '9999'; // 设置最大的 z-index
-    this.style.width = '60%'; // 恢复原始尺寸
+    this.style.width = '50%'; // 恢复原始尺寸
     this.style.height = 'auto';
   });
 
@@ -1002,6 +1001,7 @@ function createPopupImage(name, container) {
     textarea.value = name;
     changeStr()
     checkImg(name)
+    // deleteSelect()
   });
 
   container.appendChild(image);
@@ -1028,7 +1028,6 @@ function daleteImgclass() {
 
 // 创建多个弹出图片
 var interval = 1500; // 弹出图片的时间间隔（毫秒）
-
 function createMultipleImages(newArray) {
   daleteImgclass()
 
