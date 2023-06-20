@@ -639,8 +639,8 @@
   .container {
     position: absolute;
     /* border: 1px solid black; */
-    width: 26%;
-    height: 65vh;
+    width: 27%;
+    height: 75vh;
   }
 
   #one {
@@ -707,10 +707,8 @@
       flex-grow: 1
     }
     </style><a class="MV3Tnb"
-      href="https://about.google/?fg=1&amp;utm_source=google-US&amp;utm_medium=referral&amp;utm_campaign=hp-header"
       ping="/url?sa=t&amp;rct=j&amp;source=webhp&amp;url=https://about.google/%3Ffg%3D1%26utm_source%3Dgoogle-US%26utm_medium%3Dreferral%26utm_campaign%3Dhp-header&amp;ved=0ahUKEwjVuL_5hc3_AhX1K0QIHStqAyMQkNQCCAI">About</a><a
       class="MV3Tnb"
-      href="https://store.google.com/US?utm_source=hp_header&amp;utm_medium=google_ooo&amp;utm_campaign=GS100042&amp;hl=en-US"
       ping="/url?sa=t&amp;rct=j&amp;source=webhp&amp;url=https://store.google.com/US%3Futm_source%3Dhp_header%26utm_medium%3Dgoogle_ooo%26utm_campaign%3DGS100042%26hl%3Den-US&amp;ved=0ahUKEwjVuL_5hc3_AhX1K0QIHStqAyMQpMwCCAM">Store</a>
     <div class="LX3sZb">
       <div class="gb_Pa gb_f gb_gb gb_Ja gb_xd" id="gb">
@@ -718,25 +716,22 @@
           <div>
             <div class="gb_Kd gb_x gb_3f gb_Tf" data-ogbl="">
               <div class="gb_w gb_x"><a class="gb_v" aria-label="Gmail (opens a new tab)" data-pid="23"
-                  href="https://mail.google.com/mail/&amp;ogbl" target="_top">Gmail</a></div>
+                  target="_top">Gmail</a></div>
               <div class="gb_w gb_x"><a class="gb_v" aria-label="Search for Images (opens a new tab)" data-pid="2"
-                  href="https://www.google.com/imghp?hl=en&amp;ogbl" target="_top">Images</a></div>
+                  target="_top">Images</a></div>
             </div>
           </div>
           <div class="gb_1d">
             <div class="gb_9c">
               <div class="gb_S gb_Rd gb_x gb_Xd" data-ogsr-fb="true" data-ogsr-alt="" id="gbwa">
-                <div class="gb_g"><a class="gb_d" aria-label="Google apps"
-                    href="https://www.google.com/intl/en/about/products" aria-expanded="false" role="button"
+                <div class="gb_g"><a class="gb_d" aria-label="Google apps" aria-expanded="false" role="button"
                     tabindex="0"><svg class="gb_h" focusable="false" viewBox="0 0 24 24">
                       <path
                         d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z">
                       </path>
                     </svg></a></div>
               </div>
-            </div><a class="gb_oa gb_od gb_Pd gb_oe"
-              href="https://accounts.google.com/ServiceLogin?hl=en&amp;passive=true&amp;continue=https://www.google.com/&amp;ec=GAZAmgQ"
-              target="_top"><span class="gb_Md">Sign in</span></a>
+            </div><a class="gb_oa gb_od gb_Pd gb_oe" target="_top"><span class="gb_Md">Sign in</span></a>
           </div>
           <div
             style="overflow: hidden; position: absolute; top: 0px; visibility: hidden; width: 328px; z-index: 991; height: 0px; margin-top: 57px; transition: height 0.3s ease-in-out 0s; right: 0px; margin-right: 4px;">
@@ -913,12 +908,20 @@ function deleteSelect() {
 
 function checkImg(name) {
   var newArray = removeElementFromArray(str_EN, name);
+  var textarea = document.getElementById('APjFqb');
+  textarea.value = name;
   createMultipleImages(newArray)
   deleteSelect()
 }
 
+
+var minWidth = 120;
+var maxWidth = 160;
+var minHeight = 120;
+var maxHeight = 160;
+
 function generateRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min));
 }
 
 function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight, containerWidth,
@@ -938,11 +941,15 @@ function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeig
       var existingImage = existingImages[i];
       var existingImageRect = existingImage.getBoundingClientRect();
 
+      let y_left = Math.abs(existingImageRect.offsetLeft - position.x + maxWidth)
+      let y_top = Math.abs(existingImageRect.offsetTop - position.y)
+      // 164 相当于图片的宽,183 相当于图片的高
       if (
-        position.x + maxWidth > existingImageRect.left &&
-        position.x < existingImageRect.left + existingImageRect.width &&
-        position.y + maxHeight > existingImageRect.top &&
-        position.y < existingImageRect.top + existingImageRect.height
+        y_left < minWidth && y_top < minHeight
+        // Math.abs(position.x + maxWidth - existingImageRect.offsetLeft) > 800 &&
+        // Math.abs(position.x - existingImageRect.offsetLeft + existingImageRect.width) < 6 &&
+        // Math.abs(position.y + maxHeight - existingImageRect.offsetTop) > 500 &&
+        // Math.abs(position.y - existingImageRect.offsetTop + existingImageRect.height) < 80
       ) {
         isCollision = true;
         position.x = generateRandomNumber(0, containerWidth - maxWidth);
@@ -954,10 +961,7 @@ function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeig
 
   return position;
 }
-var minWidth = 120;
-var maxWidth = 140;
-var minHeight = 120;
-var maxHeight = 140;
+
 
 function createPopupImage(name, container) {
   var containerWidth = container.clientWidth;
@@ -965,9 +969,8 @@ function createPopupImage(name, container) {
   var existingImages = document.getElementsByClassName('image');
   var position = generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight, containerWidth,
     containerHeight);
-  var width = generateRandomNumber(minWidth, maxWidth);
-  var width = generateRandomNumber(minWidth, maxWidth);
-  var height = generateRandomNumber(minHeight, maxHeight);
+  var width = Math.floor(Math.random() * (maxWidth - minWidth) + 1) + minWidth;
+  var height = Math.floor(Math.random() * (maxHeight - minHeight) + 1) + minHeight;
 
   var image = document.createElement('img');
   image.className = 'popup-image';
@@ -997,8 +1000,6 @@ function createPopupImage(name, container) {
 
   // 添加鼠标移出事件监听器
   image.addEventListener('click', function() {
-    var textarea = document.getElementById('APjFqb');
-    textarea.value = name;
     changeStr()
     checkImg(name)
     // deleteSelect()
