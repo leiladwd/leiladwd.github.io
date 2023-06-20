@@ -638,17 +638,13 @@
   <style>
   .container {
     position: absolute;
-    /* border: 1px solid black; */
-    width: 26%;
-    height: 65vh;
-  }
-
-  #one {
-    margin-left: 1%;
+    border: 1px solid black;
+    width: 25%;
+    height: 70vh;
   }
 
   #two {
-    margin-left: 68%;
+    margin-left: 74%;
   }
 
   #three {
@@ -661,10 +657,6 @@
     position: absolute;
     display: none;
     animation: appear 1s;
-  }
-
-  .popup-image:hover {
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.7));
   }
 
   @keyframes appear {
@@ -906,17 +898,98 @@ function checkImg(name) {
   createMultipleImages(newArray)
 }
 
+// function getRandomPosition(container, elementWidth, elementHeight) {
+//   var padding = 60; // 图片与容器边缘的最小间距
+
+//   var containerWidth = container.clientWidth;
+//   var containerHeight = container.clientHeight;
+
+//   var x = Math.floor(Math.random() * (containerWidth - elementWidth - padding * 2)) + padding;
+//   var y = Math.floor(Math.random() * (containerHeight - elementHeight - padding * 2)) + padding;
+
+//   var images = container.getElementsByClassName('popup-image');
+
+//   // 碰撞检测，如果发生碰撞，则重新获取位置
+//   while (checkCollision(x, y, elementWidth, elementHeight, images)) {
+//     x = Math.floor(Math.random() * (containerWidth - elementWidth - padding * 2)) + padding;
+//     y = Math.floor(Math.random() * (containerHeight - elementHeight - padding * 2)) + padding;
+//   }
+
+//   return {
+//     x: x,
+//     y: y
+//   };
+// }
+
+// function checkCollision(x, y, elementWidth, elementHeight, images) {
+//   for (var i = 0; i < images.length; i++) {
+//     var existingImage = images[i];
+//     var existingImageRect = existingImage.getBoundingClientRect();
+//     console.log(existingImageRect);
+
+//     var topLeftX = existingImageRect.left;
+//     var topLeftY = existingImageRect.top;
+//     var bottomRightX = existingImageRect.left + existingImageRect.width;
+//     var bottomRightY = existingImageRect.top + existingImageRect.height;
+
+//     var elementTopLeftX = x;
+//     var elementTopLeftY = y;
+//     var elementBottomRightX = x + elementWidth;
+//     var elementBottomRightY = y + elementHeight;
+
+//     if (
+//       elementTopLeftX < bottomRightX &&
+//       elementBottomRightX > topLeftX &&
+//       elementTopLeftY < bottomRightY &&
+//       elementBottomRightY > topLeftY
+//     ) {
+//       return true; // 发生碰撞
+//     }
+//   }
+
+//   return false; // 无碰撞
+// }
+
+// function createPopupImage(name, container) {
+//   var image = document.createElement('img');
+//   image.className = 'popup-image';
+//   // 随机数
+//   var randomNum = Math.floor(Math.random() * 10) + 1;
+//   var imagePath = 'net_art/' + name + '/' + randomNum + '.jpg'; // 假设原始路径为 your-image-filename.png
+
+//   image.onerror = function() {
+//     // 图片加载失败，将后缀更改为 .jpeg
+//     imagePath = imagePath.replace(/\.[^.]+$/, '.jpeg');
+
+//     image.onerror = function() {
+//       // 图片加载失败，将后缀更改为 .jpeg
+//       imagePath = imagePath.replace(/\.[^.]+$/, '.png');
+//     };
+//   };
+
+//   image.src = imagePath; // 设置图片的路径
+
+//   container.appendChild(image);
+
+//   var elementWidth = image.clientWidth;
+//   var elementHeight = image.clientHeight;
+
+//   var position = getRandomPosition(container, elementWidth, elementHeight);
+//   image.style.left = position.x + 'px';
+//   image.style.top = position.y + 'px';
+//   image.style.width = '100px';
+
+//   image.style.display = 'block';
+// }
+
 function generateRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight, containerWidth,
-  containerHeight) {
-  containerWidth = containerWidth + 50
-  containerHeight = containerHeight + 20
+function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight) {
   var position = {
-    x: generateRandomNumber(0, containerWidth - maxWidth),
-    y: generateRandomNumber(0, containerHeight - maxHeight)
+    x: generateRandomNumber(0, window.innerWidth - maxWidth),
+    y: generateRandomNumber(0, window.innerHeight - maxHeight)
   };
 
   var isCollision = true;
@@ -934,8 +1007,8 @@ function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeig
         position.y < existingImageRect.top + existingImageRect.height
       ) {
         isCollision = true;
-        position.x = generateRandomNumber(0, containerWidth - maxWidth);
-        position.y = generateRandomNumber(0, containerHeight - maxHeight);
+        position.x = generateRandomNumber(0, window.innerWidth - maxWidth);
+        position.y = generateRandomNumber(0, window.innerHeight - maxHeight);
         break;
       }
     }
@@ -943,18 +1016,10 @@ function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeig
 
   return position;
 }
-var minWidth = 100;
-var maxWidth = 120;
-var minHeight = 100;
-var maxHeight = 120;
 
 function createPopupImage(name, container) {
-  var containerWidth = container.clientWidth;
-  var containerHeight = container.clientHeight;
   var existingImages = document.getElementsByClassName('image');
-  var position = generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight, containerWidth,
-    containerHeight);
-  var width = generateRandomNumber(minWidth, maxWidth);
+  var position = generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight);
   var width = generateRandomNumber(minWidth, maxWidth);
   var height = generateRandomNumber(minHeight, maxHeight);
 
@@ -964,44 +1029,24 @@ function createPopupImage(name, container) {
   var randomNum = Math.floor(Math.random() * 10) + 1;
   var imagePath = 'net_art/' + name + '/' + randomNum + '.jpg'; // 假设原始路径为 your-image-filename.png
 
+  image.onerror = function() {
+    // 图片加载失败，将后缀更改为 .jpeg
+    imagePath = imagePath.replace(/\.[^.]+$/, '.jpeg');
+
+    image.onerror = function() {
+      // 图片加载失败，将后缀更改为 .jpeg
+      imagePath = imagePath.replace(/\.[^.]+$/, '.png');
+    };
+  };
+
+  image.src = imagePath; // 设置图片的路径
   image.style.position = 'absolute';
   image.style.left = position.x + 'px';
   image.style.top = position.y + 'px';
   image.style.width = width + 'px';
   image.style.height = height + 'px';
 
-  // 添加鼠标移入事件监听器
-  image.addEventListener('mouseenter', function() {
-    this.style.zIndex = '9999'; // 设置最大的 z-index
-    this.style.width = '60%'; // 恢复原始尺寸
-    this.style.height = 'auto';
-  });
-
-  // 添加鼠标移出事件监听器
-  image.addEventListener('mouseleave', function() {
-    this.style.zIndex = ''; // 恢复默认的 z-index
-    this.style.width = width + 'px'; // 恢复随机生成的尺寸
-    this.style.height = height + 'px';
-  });
-
-  // 添加鼠标移出事件监听器
-  image.addEventListener('click', function() {
-    var textarea = document.getElementById('APjFqb');
-    textarea.value = name;
-    changeStr()
-    checkImg(name)
-  });
-
   container.appendChild(image);
-  image.style.display = 'block';
-
-  image.onerror = function() {
-    // 图片加载失败，将后缀更改为 .jpeg
-    imagePath = imagePath.replace(/\.[^.]+$/, '.jpeg');
-  };
-
-  image.src = imagePath; // 设置图片的路径
-
   existingImages = document.getElementsByClassName('image');
 }
 

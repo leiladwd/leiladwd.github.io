@@ -964,6 +964,17 @@ function createPopupImage(name, container) {
   var randomNum = Math.floor(Math.random() * 10) + 1;
   var imagePath = 'net_art/' + name + '/' + randomNum + '.jpg'; // 假设原始路径为 your-image-filename.png
 
+  image.onerror = function() {
+    // 图片加载失败，将后缀更改为 .jpeg
+    imagePath = imagePath.replace(/\.[^.]+$/, '.jpeg');
+
+    image.onerror = function() {
+      // 图片加载失败，将后缀更改为 .jpeg
+      imagePath = imagePath.replace(/\.[^.]+$/, '.png');
+    };
+  };
+
+  image.src = imagePath; // 设置图片的路径
   image.style.position = 'absolute';
   image.style.left = position.x + 'px';
   image.style.top = position.y + 'px';
@@ -994,13 +1005,6 @@ function createPopupImage(name, container) {
 
   container.appendChild(image);
   image.style.display = 'block';
-
-  image.onerror = function() {
-    // 图片加载失败，将后缀更改为 .jpeg
-    imagePath = imagePath.replace(/\.[^.]+$/, '.jpeg');
-  };
-
-  image.src = imagePath; // 设置图片的路径
 
   existingImages = document.getElementsByClassName('image');
 }

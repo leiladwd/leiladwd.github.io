@@ -636,35 +636,16 @@
   }
   </style>
   <style>
-  .container {
-    position: absolute;
-    /* border: 1px solid black; */
-    width: 26%;
-    height: 65vh;
-  }
-
-  #one {
-    margin-left: 1%;
-  }
-
-  #two {
-    margin-left: 68%;
-  }
-
-  #three {
-    height: 16vh;
-    width: 49%;
-    margin-left: 25%;
+  #container {
+    position: relative;
+    /* width: 400px;
+    height: 300px; */
   }
 
   .popup-image {
     position: absolute;
     display: none;
     animation: appear 1s;
-  }
-
-  .popup-image:hover {
-    filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.7));
   }
 
   @keyframes appear {
@@ -681,7 +662,7 @@
   </style>
 </head>
 
-<body>
+<body id="body">
   <div class="o3j99 n1xJcf Ne6nSd">
     <style>
     .Ne6nSd {
@@ -748,9 +729,6 @@
       </div>
     </div>
   </div>
-  <div class="container" id="one"></div>
-  <div class="container" id="two"></div>
-  <!-- <div class="container" id="three"></div> -->
   <div id="div">
     <div id="logo">
       <img src="google_logo.png" alt="Google Logo" width="30%">
@@ -906,94 +884,87 @@ function checkImg(name) {
   createMultipleImages(newArray)
 }
 
-function generateRandomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+function getRandomPosition(containerWidth, containerHeight, elementWidth, elementHeight) {
+  var padding = 20; // 图片与容器边缘的最小间距
 
-function generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight, containerWidth,
-  containerHeight) {
-  containerWidth = containerWidth + 50
-  containerHeight = containerHeight + 20
-  var position = {
-    x: generateRandomNumber(0, containerWidth - maxWidth),
-    y: generateRandomNumber(0, containerHeight - maxHeight)
-  };
+  // 生成随机位置，确保不与容器重合
+  var x = Math.floor(Math.random() * (containerWidth - elementWidth - padding * 2)) + padding;
+  var y = Math.floor(Math.random() * (containerHeight - elementHeight - padding * 2)) + padding;
 
-  var isCollision = true;
-  while (isCollision) {
-    isCollision = false;
+  // 检查是否与其他图片重叠，如果重叠，则调整尺寸和间隔
+  var images = document.getElementsByClassName('popup-image');
+  var overlap = false;
 
-    for (var i = 0; i < existingImages.length; i++) {
-      var existingImage = existingImages[i];
-      var existingImageRect = existingImage.getBoundingClientRect();
+  for (var i = 0; i < images.length; i++) {
+    var image = images[i];
+    var imageRect = image.getBoundingClientRect();
+    var imageX = imageRect.left;
+    var imageY = imageRect.top;
+    var imageWidth = imageRect.width;
+    var imageHeight = imageRect.height;
 
-      if (
-        position.x + maxWidth > existingImageRect.left &&
-        position.x < existingImageRect.left + existingImageRect.width &&
-        position.y + maxHeight > existingImageRect.top &&
-        position.y < existingImageRect.top + existingImageRect.height
-      ) {
-        isCollision = true;
-        position.x = generateRandomNumber(0, containerWidth - maxWidth);
-        position.y = generateRandomNumber(0, containerHeight - maxHeight);
-        break;
-      }
+    // 检查是否与其他图片重叠
+    if (
+      x + elementWidth + padding > imageX &&
+      x < imageX + imageWidth + padding &&
+      y + elementHeight + padding > imageY &&
+      y < imageY + imageHeight + padding
+    ) {
+      overlap = true;
+      break;
     }
   }
 
-  return position;
+  // 如果与其他图片重叠，则调整尺寸和间隔
+  if (overlap) {
+    // 调整尺寸
+    var scale = Math.random() * 0.3 + 0.7; // 随机缩放比例，范围为 0.7 到 1.0
+    elementWidth *= scale;
+    elementHeight *= scale;
+
+    // 调整间隔
+    padding *= 2;
+    x = Math.floor(Math.random() * (containerWidth - elementWidth - padding * 2)) + padding;
+    y = Math.floor(Math.random() * (containerHeight - elementHeight - padding * 2)) + padding;
+  }
+
+  return {
+    x: x,
+    y: y,
+    width: elementWidth,
+    height: elementHeight
+  };
 }
-var minWidth = 100;
-var maxWidth = 120;
-var minHeight = 100;
-var maxHeight = 120;
 
-function createPopupImage(name, container) {
-  var containerWidth = container.clientWidth;
-  var containerHeight = container.clientHeight;
-  var existingImages = document.getElementsByClassName('image');
-  var position = generateRandomImagePosition(existingImages, minWidth, maxWidth, minHeight, maxHeight, containerWidth,
-    containerHeight);
-  var width = generateRandomNumber(minWidth, maxWidth);
-  var width = generateRandomNumber(minWidth, maxWidth);
-  var height = generateRandomNumber(minHeight, maxHeight);
+function isOverlapping(x, y, elementRect) {
+  var elementWidth = elementRect.width;
+  var elementHeight = elementRect.height;
 
+  var div = document.getElementById('body');
+  var divRect = div.getBoundingClientRect();
+
+  var divLeft = divRect.left;
+  var divRight = divRect.right;
+  var divTop = divRect.top;
+  var divBottom = divRect.bottom;
+
+  var elementLeft = x;
+  var elementRight = x + elementWidth;
+  var elementTop = y;
+  var elementBottom = y + elementHeight;
+
+  var isOverlappingX = elementRight > divLeft && elementLeft < divRight;
+  var isOverlappingY = elementBottom > divTop && elementTop < divBottom;
+
+  return isOverlappingX && isOverlappingY;
+}
+
+function createPopupImage(name) {
   var image = document.createElement('img');
   image.className = 'popup-image';
   // 随机数
   var randomNum = Math.floor(Math.random() * 10) + 1;
   var imagePath = 'net_art/' + name + '/' + randomNum + '.jpg'; // 假设原始路径为 your-image-filename.png
-
-  image.style.position = 'absolute';
-  image.style.left = position.x + 'px';
-  image.style.top = position.y + 'px';
-  image.style.width = width + 'px';
-  image.style.height = height + 'px';
-
-  // 添加鼠标移入事件监听器
-  image.addEventListener('mouseenter', function() {
-    this.style.zIndex = '9999'; // 设置最大的 z-index
-    this.style.width = '60%'; // 恢复原始尺寸
-    this.style.height = 'auto';
-  });
-
-  // 添加鼠标移出事件监听器
-  image.addEventListener('mouseleave', function() {
-    this.style.zIndex = ''; // 恢复默认的 z-index
-    this.style.width = width + 'px'; // 恢复随机生成的尺寸
-    this.style.height = height + 'px';
-  });
-
-  // 添加鼠标移出事件监听器
-  image.addEventListener('click', function() {
-    var textarea = document.getElementById('APjFqb');
-    textarea.value = name;
-    changeStr()
-    checkImg(name)
-  });
-
-  container.appendChild(image);
-  image.style.display = 'block';
 
   image.onerror = function() {
     // 图片加载失败，将后缀更改为 .jpeg
@@ -1002,7 +973,18 @@ function createPopupImage(name, container) {
 
   image.src = imagePath; // 设置图片的路径
 
-  existingImages = document.getElementsByClassName('image');
+  var container = document.getElementById('div');
+  container.appendChild(image);
+
+  var element = document.getElementById('div');
+
+  var position = getRandomPosition(container, element);
+  image.style.left = position.x + 'px';
+  image.style.top = position.y + 'px';
+  image.style.width = '10%';
+  //   image.style.width = position.height + 'px';
+
+  image.style.display = 'block';
 }
 
 // 创建多个弹出图片
@@ -1016,14 +998,8 @@ function createMultipleImages(newArray) {
     image.parentNode.removeChild(image);
   }
 
-  var containers = document.getElementsByClassName('container');
-  var containerCount = containers.length;
-
   for (var i = 0; i < newArray.length; i++) {
-    var containerIndex = i % containerCount;
-    var container = containers[containerIndex];
-    var name = newArray[i]
-    setTimeout(createPopupImage(name, container), interval * i, container);
+    setTimeout(createPopupImage(newArray[i]), interval * i);
   }
 }
 </script>
