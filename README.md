@@ -1,1 +1,5 @@
-#leiladwd.github.io
+By reconstructing the pages of the famous search engine Google, an attempt is made to reveal the potential control of media algorithms in the recommendation of personal preferences." The "information maze" plays on the control of media algorithms that control our private and personal preferences. The work disguises itself as Google, and once a search is initiated some discrepancies pop up.
+
+In an age where we are "online for life", the amount of information is overwhelming and creates a kind of "information faze". Search engines are no longer as reliable as they used to be, they present results that may be wrong or biased towards a certain position, and media algorithms are inadvertently changing our interests and perceptions. Hidden algorithms are silently manipulating and changing us. The artist encourages the viewer to re-examine the world and carefully process the information provided.
+
+The work provides a reflective visual space that allows the viewer to consider the relationship between us - The individual - Them - The algorithm - through "information confusion".
