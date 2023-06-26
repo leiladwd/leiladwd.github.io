@@ -1087,9 +1087,12 @@
     sea_dog: 18,
   }
 
-  $('#APjFqb').bind('input propertychange', 'textarea', function () {
-    changeStr()
-  })
+  $('#APjFqb').bind('input propertychange', 'textarea', function() {
+        changeStr()
+    })
+    $('#APjFqb').on('focus', function() {
+        changeStr()
+    })
   // 添加失去焦点事件处理程序
   var textarea = document.getElementById('APjFqb')
   textarea.addEventListener('blur', function () {
