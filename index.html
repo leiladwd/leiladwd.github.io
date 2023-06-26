@@ -1126,6 +1126,8 @@
       }
       var randomNum = Math.floor(Math.random() * 14) + 1
       var newArray = removeElementFromArray(str_EN, str_EN[randomNum])
+      createMultipleImages(newArray)
+
       $('#result').display = ''
       // 显示div遍历数组
       resultDiv.style.display = 'block' // 显示 div 元素
