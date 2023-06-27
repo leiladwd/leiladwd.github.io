@@ -1076,7 +1076,7 @@ textarea.addEventListener('blur', function() {
 
 function removeElementFromArray(arr, element) {
   var newArray = arr.filter(function(item) {
-    var regex = new RegExp('^' + element) // 使用 ^ 字符匹配开头
+    var regex = new RegExp('^' + element, 'i') // 使用 ^ 字符匹配开头
     return item !== element && !regex.test(item)
   })
   return newArray
