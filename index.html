@@ -979,6 +979,24 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
 // about
+document.addEventListener('click', function(event) {
+  var target = event.target;
+  var hiddenDiv = document.getElementById('js');
+  var showButton = document.querySelector('.show');
+
+  if (target !== hiddenDiv && !hiddenDiv.contains(target) && target !== showButton) {
+    hiddenDiv.style.display = 'none';
+  }
+
+  var hiddenDiv2 = document.getElementById('Gmail');
+  var showButton2 = document.getElementById('GmailBox');
+
+  if (target !== hiddenDiv2 && !hiddenDiv2.contains(target) && target !== showButton2) {
+    hiddenDiv2.style.display = 'none';
+  }
+})
+
+
 $('.show').bind('click', function(e) {
   var hiddenDiv = document.getElementById('js');
 
